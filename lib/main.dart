@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'configuracion.dart' as config;
+import 'variables.dart' as vars;
 
 void main() {
   runApp(const MyApp());
@@ -18,8 +20,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      //home: const MyHomePage(title: 'Control mqtt 2'),
-      home: const Configuracion(),
+      home: config.Configuracion(title: 'Configuracion'),
     );
   }
 }
@@ -34,53 +35,14 @@ class Control extends StatefulWidget {
 }
 
 class _Control extends State<Control> {
-  String topic = 'prueba';
-  String broker = '192.168.0.133';
-  int port = 1883;
-  //String username = 'your_username';
-  //String password = 'your_password';
-  String clientIdentifier = 'GuzziZander';
-  String mensaje = 'DESCONECTADO';
-  bool estado = false;
-  MqttServerClient? client;
-  Color _iconColor = Colors.redAccent;
   double _valorSlider = 0;
   final builder = MqttClientPayloadBuilder();
 
   void _publicaMensaje(String mensaje) {
     builder.clear();
     builder.addString(mensaje);
-    client!.publishMessage(topic, MqttQos.atLeastOnce, builder.payload!);
-  }
-
-  Future<MqttServerClient> brokerSetup() async {
-    client = MqttServerClient.withPort(broker, clientIdentifier, port);
-    client!.logging(on: true);
-    client!.onConnected = onConnected;
-    client!.onDisconnected = onDisconnected;
-    client!.onSubscribed = onSubscribed;
-    client!.onSubscribeFail = onSubscribeFail;
-    client!.pongCallback = pong;
-    client!.secure = false;
-
-    /*
-    final connMessage = MqttConnectMessage()
-        //.authenticateAs(username, password)
-        //.keepAliveFor(60)
-        .startClean()
-        .withWillQos(MqttQos.atLeastOnce)
-        .withClientIdentifier(clientIdentifier);
-    */
-
-    try {
-      await client!.connect();
-    } catch (e) {
-      setState(() {
-        mensaje = 'ERROR DE CONNEXION';
-      });
-      print('Exception: $e');
-    }
-    return client!;
+    vars.client!
+        .publishMessage(vars.topic, MqttQos.atLeastOnce, builder.payload!);
   }
 
   Widget build(BuildContext context) {
@@ -97,7 +59,7 @@ class _Control extends State<Control> {
             Container(
                 width: 200,
                 child: Text(
-                  mensaje,
+                  vars.mensaje,
                   textAlign: TextAlign.center,
                 )),
             SizedBox(
@@ -107,7 +69,7 @@ class _Control extends State<Control> {
               iconSize: 72,
               icon: const FaIcon(FontAwesomeIcons.circleUp),
               color: Colors.black,
-              onPressed: estado
+              onPressed: vars.estado
                   ? () {
                       print('Arriba');
                       _publicaMensaje('Arriba');
@@ -121,31 +83,18 @@ class _Control extends State<Control> {
                   iconSize: 72,
                   icon: const FaIcon(FontAwesomeIcons.circleLeft),
                   color: Colors.black,
-                  onPressed: estado
+                  onPressed: vars.estado
                       ? () {
                           print('Izquierda');
                           _publicaMensaje('Izquierda');
                         }
                       : null,
                 ),
-                // Boton de conexion/desconexion
-                IconButton(
-                  iconSize: 72,
-                  icon:
-                      FaIcon((FontAwesomeIcons.circlePlay), color: _iconColor),
-                  onPressed: () {
-                    if (!estado) {
-                      brokerSetup();
-                    } else {
-                      client!.disconnect();
-                    }
-                  },
-                ),
                 IconButton(
                   iconSize: 72,
                   icon: const FaIcon(FontAwesomeIcons.circleRight),
                   color: Colors.black,
-                  onPressed: estado
+                  onPressed: vars.estado
                       ? () {
                           print('Derecha');
                           _publicaMensaje('Derecha');
@@ -158,7 +107,7 @@ class _Control extends State<Control> {
               iconSize: 72,
               icon: const FaIcon(FontAwesomeIcons.circleDown),
               color: Colors.black,
-              onPressed: estado
+              onPressed: vars.estado
                   ? () {
                       print('Abajo');
                       _publicaMensaje('Abajo');
@@ -180,7 +129,7 @@ class _Control extends State<Control> {
                 activeColor: Colors.redAccent,
                 inactiveColor: Colors.blueAccent,
                 onChanged: (nuevoValor) {
-                  estado
+                  vars.estado
                       ? {
                           setState(() {
                             _publicaMensaje(_valorSlider.round().toString());
@@ -190,67 +139,6 @@ class _Control extends State<Control> {
                       : null;
                 }),
           ],
-        ),
-      ),
-    );
-  }
-
-//actions
-  void onConnected() {
-    //print('Conectado');
-    setState(() {
-      mensaje = 'CONECTADO';
-      estado = true;
-      _iconColor = Colors.greenAccent;
-    });
-  }
-
-  void onDisconnected() {
-    print('disconnected');
-    setState(() {
-      mensaje = 'DESCONECTADO';
-      estado = false;
-      _iconColor = Colors.redAccent;
-    });
-  }
-
-  void onSubscribed(String topic) {
-    print('subscribed to $topic');
-  }
-
-  void onSubscribeFail(String topic) {
-    print('failed to subscribe to $topic');
-  }
-
-  void on() {
-    print('disconnected');
-  }
-
-  void pong() {
-    print('ping response arrived');
-  }
-}
-
-class Configuracion extends StatelessWidget {
-  const Configuracion({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Configuracion'),
-        centerTitle: true,
-      ),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => Control(title: 'Control')),
-            );
-          },
-          child: const Text('OK'),
         ),
       ),
     );
