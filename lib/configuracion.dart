@@ -43,8 +43,11 @@ class _Configuracion extends State<Configuracion> {
                     // Boton de conexion/desconexion
                     IconButton(
                       iconSize: 72,
-                      icon: FaIcon((FontAwesomeIcons.circlePlay),
-                          color: _iconColor),
+                      //icon: FaIcon((FontAwesomeIcons.link), color: _iconColor),
+                      icon: vars.estado
+                          ? FaIcon((FontAwesomeIcons.link), color: _iconColor)
+                          : FaIcon((FontAwesomeIcons.linkSlash),
+                              color: _iconColor),
                       onPressed: () {
                         if (!vars.estado) {
                           brokerSetup();
