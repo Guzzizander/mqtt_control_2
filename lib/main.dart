@@ -18,21 +18,22 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Control mqtt 2'),
+      //home: const MyHomePage(title: 'Control mqtt 2'),
+      home: const Configuracion(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+class Control extends StatefulWidget {
+  const Control({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<Control> createState() => _Control();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _Control extends State<Control> {
   String topic = 'prueba';
   String broker = '192.168.0.133';
   int port = 1883;
@@ -49,7 +50,6 @@ class _MyHomePageState extends State<MyHomePage> {
   void _publicaMensaje(String mensaje) {
     builder.clear();
     builder.addString(mensaje);
-    //client.publishMessage(topic, qosLevel, builder.payload);
     client!.publishMessage(topic, MqttQos.atLeastOnce, builder.payload!);
   }
 
@@ -63,12 +63,15 @@ class _MyHomePageState extends State<MyHomePage> {
     client!.pongCallback = pong;
     client!.secure = false;
 
+    /*
     final connMessage = MqttConnectMessage()
         //.authenticateAs(username, password)
         //.keepAliveFor(60)
         .startClean()
         .withWillQos(MqttQos.atLeastOnce)
         .withClientIdentifier(clientIdentifier);
+    */
+
     try {
       await client!.connect();
     } catch (e) {
@@ -162,6 +165,12 @@ class _MyHomePageState extends State<MyHomePage> {
                     }
                   : null,
             ),
+            ElevatedButton(
+              child: const Text('Configuracion'),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
             Slider(
                 value: _valorSlider,
                 min: 0,
@@ -188,7 +197,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
 //actions
   void onConnected() {
-    print('connected***********');
+    //print('Conectado');
     setState(() {
       mensaje = 'CONECTADO';
       estado = true;
@@ -219,5 +228,31 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void pong() {
     print('ping response arrived');
+  }
+}
+
+class Configuracion extends StatelessWidget {
+  const Configuracion({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Configuracion'),
+        centerTitle: true,
+      ),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => Control(title: 'Control')),
+            );
+          },
+          child: const Text('OK'),
+        ),
+      ),
+    );
   }
 }
