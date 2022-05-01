@@ -43,7 +43,7 @@ class _MyHomePageState extends State<MyHomePage> {
   bool estado = false;
   MqttServerClient? client;
   Color _iconColor = Colors.redAccent;
-  double _currentSliderValue = 0;
+  double _valorSlider = 0;
   final builder = MqttClientPayloadBuilder();
 
   void _publicaMensaje(String mensaje) {
@@ -84,6 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('MQTT Control 2'),
+        centerTitle: true,
       ),
       body: Center(
         child: Column(
@@ -162,15 +163,22 @@ class _MyHomePageState extends State<MyHomePage> {
                   : null,
             ),
             Slider(
-                value: _currentSliderValue,
+                value: _valorSlider,
+                min: 0,
                 max: 100,
-                divisions: 5,
-                label: _currentSliderValue.round().toString(),
-                onChanged: (double newValue) {
-                  setState() {
-                    _currentSliderValue = newValue;
-                    _publicaMensaje(_currentSliderValue.toString());
-                  }
+                divisions: 50,
+                label: _valorSlider.round().toString(),
+                activeColor: Colors.redAccent,
+                inactiveColor: Colors.blueAccent,
+                onChanged: (nuevoValor) {
+                  estado
+                      ? {
+                          setState(() {
+                            _publicaMensaje(_valorSlider.round().toString());
+                            _valorSlider = nuevoValor;
+                          })
+                        }
+                      : null;
                 }),
           ],
         ),
