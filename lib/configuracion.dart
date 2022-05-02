@@ -27,13 +27,32 @@ class _Configuracion extends State<Configuracion> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
+            Container(
+              padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+              child: Column(
+                  //mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    TextField(
+                      decoration: InputDecoration(
+                          hintText: 'Broker (IP:xxx.xxx.xxx.xxx)'),
+                    ),
+                    TextField(
+                      decoration: InputDecoration(hintText: 'Topic'),
+                    ),
+                    TextField(
+                      decoration: InputDecoration(hintText: 'Puerto (1883)'),
+                    ),
+                    TextField(
+                      decoration: InputDecoration(hintText: 'Identificador'),
+                    ),
+                  ]),
+            ),
             SizedBox(
               height: 40,
             ),
             // Boton de conexion/desconexion
             IconButton(
               iconSize: 72,
-              //icon: FaIcon((FontAwesomeIcons.link), color: _iconColor),
               icon: vars.estado
                   ? FaIcon((FontAwesomeIcons.link), color: _iconColor)
                   : FaIcon((FontAwesomeIcons.linkSlash), color: _iconColor),
