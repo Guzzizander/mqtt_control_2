@@ -19,58 +19,50 @@ class _Configuracion extends State<Configuracion> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Configuracion'),
-          centerTitle: true,
+      appBar: AppBar(
+        title: const Text('Configuracion'),
+        centerTitle: true,
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            SizedBox(
+              height: 40,
+            ),
+            // Boton de conexion/desconexion
+            IconButton(
+              iconSize: 72,
+              //icon: FaIcon((FontAwesomeIcons.link), color: _iconColor),
+              icon: vars.estado
+                  ? FaIcon((FontAwesomeIcons.link), color: _iconColor)
+                  : FaIcon((FontAwesomeIcons.linkSlash), color: _iconColor),
+              onPressed: () {
+                if (!vars.estado) {
+                  brokerSetup();
+                } else {
+                  vars.client!.disconnect();
+                }
+              },
+            ),
+            Text(
+              vars.mensaje,
+              textAlign: TextAlign.center,
+            ),
+            ElevatedButton(
+              child: const Text('OK'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const Control(title: 'Control')),
+                );
+              },
+            ),
+          ],
         ),
-        body: Center(
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                // Contenedor donde se ven los mensajes del broker
-                Container(
-                    width: 200,
-                    child: Text(
-                      vars.mensaje,
-                      textAlign: TextAlign.center,
-                    )),
-                SizedBox(
-                  height: 40,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    // Boton de conexion/desconexion
-                    IconButton(
-                      iconSize: 72,
-                      //icon: FaIcon((FontAwesomeIcons.link), color: _iconColor),
-                      icon: vars.estado
-                          ? FaIcon((FontAwesomeIcons.link), color: _iconColor)
-                          : FaIcon((FontAwesomeIcons.linkSlash),
-                              color: _iconColor),
-                      onPressed: () {
-                        if (!vars.estado) {
-                          brokerSetup();
-                        } else {
-                          vars.client!.disconnect();
-                        }
-                      },
-                    ),
-                  ],
-                ),
-                ElevatedButton(
-                  child: const Text('OK'),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              const Control(title: 'Control')),
-                    );
-                  },
-                ),
-              ]),
-        ));
+      ),
+    );
   }
 
   Future<MqttServerClient> brokerSetup() async {
