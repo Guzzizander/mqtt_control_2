@@ -32,8 +32,16 @@ class _Configuracion extends State<Configuracion> {
     super.dispose();
   }
 
+  void cargaDatos() {
+    tBroker.text = vars.broker;
+    tTopic.text = vars.topic;
+    tPort.text = vars.port.toString();
+    tIdentificador.text = vars.clientIdentifier;
+  }
+
   @override
   Widget build(BuildContext context) {
+    cargaDatos();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Configuracion'),
