@@ -16,6 +16,22 @@ class Configuracion extends StatefulWidget {
 class _Configuracion extends State<Configuracion> {
   Color _iconColor = Colors.redAccent;
 
+  final tConfig = TextEditingController();
+  final tBroker = TextEditingController();
+  final tTopic = TextEditingController();
+  final tPort = TextEditingController();
+  final tIdentificador = TextEditingController();
+
+  // Clean up the controller when the widget is disposed.
+  void dispose() {
+    tConfig.dispose();
+    tBroker.dispose();
+    tTopic.dispose();
+    tPort.dispose();
+    tIdentificador.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,46 +43,61 @@ class _Configuracion extends State<Configuracion> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
+            SizedBox(
+              height: 110,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  Text(
+                    vars.mensaje,
+                    textAlign: TextAlign.center,
+                  ),
+                  // Boton de conexion/desconexion
+                  IconButton(
+                    iconSize: 72,
+                    icon: vars.estado
+                        ? FaIcon((FontAwesomeIcons.link), color: _iconColor)
+                        : FaIcon((FontAwesomeIcons.linkSlash),
+                            color: _iconColor),
+                    onPressed: () {
+                      if (!vars.estado) {
+                        brokerSetup();
+                      } else {
+                        vars.client!.disconnect();
+                      }
+                    },
+                  ),
+                ],
+              ),
+            ),
             Container(
               padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
               child: Column(
                   //mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
                     TextField(
+                      controller: tConfig,
+                      decoration:
+                          InputDecoration(hintText: 'Nombre configuracion'),
+                    ),
+                    TextField(
+                      controller: tBroker,
                       decoration: InputDecoration(
                           hintText: 'Broker (IP:xxx.xxx.xxx.xxx)'),
                     ),
                     TextField(
+                      controller: tTopic,
                       decoration: InputDecoration(hintText: 'Topic'),
                     ),
                     TextField(
+                      controller: tPort,
                       decoration: InputDecoration(hintText: 'Puerto (1883)'),
                     ),
                     TextField(
+                      controller: tIdentificador,
                       decoration: InputDecoration(hintText: 'Identificador'),
                     ),
                   ]),
-            ),
-            SizedBox(
-              height: 40,
-            ),
-            // Boton de conexion/desconexion
-            IconButton(
-              iconSize: 72,
-              icon: vars.estado
-                  ? FaIcon((FontAwesomeIcons.link), color: _iconColor)
-                  : FaIcon((FontAwesomeIcons.linkSlash), color: _iconColor),
-              onPressed: () {
-                if (!vars.estado) {
-                  brokerSetup();
-                } else {
-                  vars.client!.disconnect();
-                }
-              },
-            ),
-            Text(
-              vars.mensaje,
-              textAlign: TextAlign.center,
             ),
             ElevatedButton(
               child: const Text('OK'),
@@ -86,7 +117,11 @@ class _Configuracion extends State<Configuracion> {
 
   Future<MqttServerClient> brokerSetup() async {
     vars.client = MqttServerClient.withPort(
-        vars.broker, vars.clientIdentifier, vars.port);
+        //    vars.broker, vars.clientIdentifier, vars.port);
+        tBroker.text,
+        tIdentificador.text,
+        int.parse(tPort.text));
+
     vars.client!.logging(on: true);
     vars.client!.onConnected = onConnected;
     vars.client!.onDisconnected = onDisconnected;
@@ -94,6 +129,8 @@ class _Configuracion extends State<Configuracion> {
     vars.client!.onSubscribeFail = onSubscribeFail;
     vars.client!.pongCallback = pong;
     vars.client!.secure = false;
+
+    vars.topic = tTopic.text;
 
     /*
     final connMessage = MqttConnectMessage()
@@ -123,6 +160,11 @@ class _Configuracion extends State<Configuracion> {
       vars.estado = true;
       _iconColor = Colors.greenAccent;
     });
+    // Abre la pagina de Control
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => const Control(title: 'Control')));
   }
 
   void onDisconnected() {
