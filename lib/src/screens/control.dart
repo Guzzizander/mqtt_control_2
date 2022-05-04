@@ -49,7 +49,6 @@ class _Control extends State<Control> {
               color: Colors.black,
               onPressed: vars.estado
                   ? () {
-                      print('Arriba');
                       _publicaMensaje('Arriba');
                     }
                   : null,
@@ -63,7 +62,6 @@ class _Control extends State<Control> {
                   color: Colors.black,
                   onPressed: vars.estado
                       ? () {
-                          print('Izquierda');
                           _publicaMensaje('Izquierda');
                         }
                       : null,
@@ -74,7 +72,6 @@ class _Control extends State<Control> {
                   color: Colors.black,
                   onPressed: vars.estado
                       ? () {
-                          print('Derecha');
                           _publicaMensaje('Derecha');
                         }
                       : null,

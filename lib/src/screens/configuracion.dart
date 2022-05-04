@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import '../../main.dart';
 import 'control.dart';
 import '../variables.dart' as vars;
 
@@ -127,10 +126,7 @@ class _Configuracion extends State<Configuracion> {
 
   Future<MqttServerClient> brokerSetup() async {
     vars.client = MqttServerClient.withPort(
-        //    vars.broker, vars.clientIdentifier, vars.port);
-        tBroker.text,
-        tIdentificador.text,
-        int.parse(tPort.text));
+        tBroker.text, tIdentificador.text, int.parse(tPort.text));
 
     vars.client!.logging(on: true);
     vars.client!.onConnected = onConnected;
@@ -157,7 +153,7 @@ class _Configuracion extends State<Configuracion> {
       setState(() {
         vars.mensaje = 'ERROR DE CONNEXION';
       });
-      print('Exception: $e');
+      //print('Exception: $e');
     }
     return vars.client!;
   }
@@ -178,7 +174,6 @@ class _Configuracion extends State<Configuracion> {
   }
 
   void onDisconnected() {
-    print('disconnected');
     setState(() {
       vars.mensaje = 'DESCONECTADO';
       vars.estado = false;
@@ -187,18 +182,24 @@ class _Configuracion extends State<Configuracion> {
   }
 
   void onSubscribed(String topic) {
-    print('subscribed to $topic');
+    //print('subscribed to $topic');
+    /*
+    // No estoy suscrito ya que no tengo que recibir mensajes
+    setState(() {
+      vars.mensaje = 'SUBSCRITO A ' + topic.toUpperCase();
+    });
+    */
   }
 
   void onSubscribeFail(String topic) {
-    print('failed to subscribe to $topic');
+    //print('failed to subscribe to $topic');
   }
 
   void on() {
-    print('disconnected');
+    //print('disconnected');
   }
 
   void pong() {
-    print('ping response arrived');
+    //print('ping response arrived');
   }
 }
