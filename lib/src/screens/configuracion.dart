@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'main.dart';
-import 'variables.dart' as vars;
+import '../../main.dart';
+import 'control.dart';
+import '../variables.dart' as vars;
 
 class Configuracion extends StatefulWidget {
   const Configuracion({Key? key, required this.title}) : super(key: key);
@@ -41,6 +42,7 @@ class _Configuracion extends State<Configuracion> {
 
   @override
   Widget build(BuildContext context) {
+    // Carga los datos del fichero variables en los textfield
     cargaDatos();
     return Scaffold(
       appBar: AppBar(
