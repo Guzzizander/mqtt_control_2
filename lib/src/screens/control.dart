@@ -91,12 +91,6 @@ class _Control extends State<Control> {
                     }
                   : null,
             ),
-            ElevatedButton(
-              child: const Text('Configuracion'),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
             Slider(
                 value: _valorSlider,
                 min: 0,
