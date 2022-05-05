@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'screens/configuracion.dart';
+import 'widgets/menu.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const Configuracion(title: 'Configuracion'),
+      home: const Menu(title: 'Menu'),
     );
   }
 }
