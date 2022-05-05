@@ -13,17 +13,20 @@ class Configuracion extends StatefulWidget {
   State<Configuracion> createState() => _Configuracion();
 }
 
-class _Configuracion extends State<Configuracion> {
-  Color _iconColor = Colors.redAccent;
+class _Configuracion extends State<Configuracion>
+    with SingleTickerProviderStateMixin {
+  TabController? _tabController;
 
-  final tConfig = TextEditingController();
-  final tBroker = TextEditingController();
-  final tTopic = TextEditingController();
-  final tPort = TextEditingController();
-  final tIdentificador = TextEditingController();
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 3, vsync: this);
+  }
 
+  @override
   // Clean up the controller when the widget is disposed.
   void dispose() {
+    _tabController!.dispose();
     tConfig.dispose();
     tBroker.dispose();
     tTopic.dispose();
@@ -31,6 +34,14 @@ class _Configuracion extends State<Configuracion> {
     tIdentificador.dispose();
     super.dispose();
   }
+
+  Color _iconColor = Colors.redAccent;
+
+  final tConfig = TextEditingController();
+  final tBroker = TextEditingController();
+  final tTopic = TextEditingController();
+  final tPort = TextEditingController();
+  final tIdentificador = TextEditingController();
 
   void cargaDatos() {
     tBroker.text = vars.broker;
@@ -45,81 +56,99 @@ class _Configuracion extends State<Configuracion> {
     cargaDatos();
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Configuracion'),
+        title: const Text('MQTT Control'),
         centerTitle: true,
+        bottom: TabBar(controller: _tabController, tabs: [
+          Tab(text: 'Configuracion'),
+          Tab(text: 'Conexion'),
+          Tab(text: 'Control'),
+        ]),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            SizedBox(
-              height: 110,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  Text(
-                    vars.mensaje,
-                    textAlign: TextAlign.center,
+      body: TabBarView(
+        controller: _tabController,
+        children: [
+          Text(
+            "Hola Radiola 2",
+            textAlign: TextAlign.center,
+          ),
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                SizedBox(
+                  height: 110,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      Text(
+                        vars.mensaje,
+                        textAlign: TextAlign.center,
+                      ),
+                      // Boton de conexion/desconexion
+                      IconButton(
+                        iconSize: 72,
+                        icon: vars.estado
+                            ? FaIcon((FontAwesomeIcons.link), color: _iconColor)
+                            : FaIcon((FontAwesomeIcons.linkSlash),
+                                color: _iconColor),
+                        onPressed: () {
+                          if (!vars.estado) {
+                            brokerSetup();
+                          } else {
+                            vars.client!.disconnect();
+                          }
+                        },
+                      ),
+                    ],
                   ),
-                  // Boton de conexion/desconexion
-                  IconButton(
-                    iconSize: 72,
-                    icon: vars.estado
-                        ? FaIcon((FontAwesomeIcons.link), color: _iconColor)
-                        : FaIcon((FontAwesomeIcons.linkSlash),
-                            color: _iconColor),
-                    onPressed: () {
-                      if (!vars.estado) {
-                        brokerSetup();
-                      } else {
-                        vars.client!.disconnect();
-                      }
-                    },
-                  ),
-                ],
-              ),
+                ),
+                Container(
+                  padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                  child: Column(
+                      //mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        TextField(
+                          controller: tConfig,
+                          decoration:
+                              InputDecoration(hintText: 'Nombre configuracion'),
+                        ),
+                        TextField(
+                          controller: tBroker,
+                          decoration: InputDecoration(
+                              hintText: 'Broker (IP:xxx.xxx.xxx.xxx)'),
+                        ),
+                        TextField(
+                          controller: tTopic,
+                          decoration: InputDecoration(hintText: 'Topic'),
+                        ),
+                        TextField(
+                          controller: tPort,
+                          decoration:
+                              InputDecoration(hintText: 'Puerto (1883)'),
+                        ),
+                        TextField(
+                          controller: tIdentificador,
+                          decoration:
+                              InputDecoration(hintText: 'Identificador'),
+                        ),
+                      ]),
+                ),
+                ElevatedButton(
+                  child: const Text('OK'),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              const Control(title: 'Control')),
+                    );
+                  },
+                ),
+              ],
             ),
-            Container(
-              padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-              child: Column(
-                  //mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    TextField(
-                      controller: tConfig,
-                      decoration:
-                          InputDecoration(hintText: 'Nombre configuracion'),
-                    ),
-                    TextField(
-                      controller: tBroker,
-                      decoration: InputDecoration(
-                          hintText: 'Broker (IP:xxx.xxx.xxx.xxx)'),
-                    ),
-                    TextField(
-                      controller: tTopic,
-                      decoration: InputDecoration(hintText: 'Topic'),
-                    ),
-                    TextField(
-                      controller: tPort,
-                      decoration: InputDecoration(hintText: 'Puerto (1883)'),
-                    ),
-                    TextField(
-                      controller: tIdentificador,
-                      decoration: InputDecoration(hintText: 'Identificador'),
-                    ),
-                  ]),
-            ),
-            ElevatedButton(
-              child: const Text('OK'),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const Control(title: 'Control')),
-                );
-              },
-            ),
-          ],
-        ),
+          ),
+          Control(title: 'Control'),
+        ],
       ),
     );
   }
