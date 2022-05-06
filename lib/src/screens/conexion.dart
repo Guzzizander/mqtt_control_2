@@ -1,7 +1,9 @@
+import 'dart:async';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'control.dart';
+import 'package:path_provider/path_provider.dart';
 import '../variables.dart' as vars;
 
 class Conexion extends StatefulWidget {
@@ -30,8 +32,6 @@ class _Conexion extends State<Conexion> {
     super.dispose();
   }
 
-  Color _iconColor = Colors.redAccent;
-
   final tConfig = TextEditingController();
   final tBroker = TextEditingController();
   final tTopic = TextEditingController();
@@ -43,6 +43,16 @@ class _Conexion extends State<Conexion> {
     tTopic.text = vars.topic;
     tPort.text = vars.port.toString();
     tIdentificador.text = vars.clientIdentifier;
+  }
+
+  Future<String> get _localPath async {
+    final directorio = await getApplicationDocumentsDirectory();
+    return directorio.path;
+  }
+
+  Future<File> get _localFile async {
+    final path = await _localPath;
+    return File('$path/config.json');
   }
 
   @override
@@ -71,9 +81,9 @@ class _Conexion extends State<Conexion> {
                   IconButton(
                     iconSize: 72,
                     icon: vars.estado
-                        ? FaIcon((FontAwesomeIcons.link), color: _iconColor)
+                        ? FaIcon((FontAwesomeIcons.link), color: vars.iconColor)
                         : FaIcon((FontAwesomeIcons.linkSlash),
-                            color: _iconColor),
+                            color: vars.iconColor),
                     onPressed: () {
                       if (!vars.estado) {
                         brokerSetup();
@@ -82,7 +92,7 @@ class _Conexion extends State<Conexion> {
                           vars.mensaje = 'DESCONECTADO';
                           vars.estado = false;
                           vars.client!.disconnect();
-                          _iconColor = Colors.redAccent;
+                          vars.iconColor = Colors.redAccent;
                         });
                       }
                     },
@@ -116,6 +126,15 @@ class _Conexion extends State<Conexion> {
                     TextField(
                       controller: tIdentificador,
                       decoration: InputDecoration(hintText: 'Identificador'),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        // Guardar la configuracion en el fichero
+                        print('AÑADIDO');
+                      },
+                      icon: FaIcon(FontAwesomeIcons.circleCheck),
+                      iconSize: 40,
+                      color: Colors.blueAccent,
                     ),
                   ]),
             ),
@@ -165,7 +184,7 @@ class _Conexion extends State<Conexion> {
     setState(() {
       vars.mensaje = 'CONECTADO';
       vars.estado = true;
-      _iconColor = Colors.greenAccent;
+      vars.iconColor = Colors.greenAccent;
     });
   }
 

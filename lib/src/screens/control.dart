@@ -37,11 +37,8 @@ class _Control extends State<Control> {
           children: <Widget>[
             // Contenedor donde se ven los mensajes del broker
             Container(
-                width: 200,
-                child: Text(
-                  vars.mensaje,
-                  textAlign: TextAlign.center,
-                )),
+              width: 200,
+            ),
             SizedBox(
               height: 40,
             ),

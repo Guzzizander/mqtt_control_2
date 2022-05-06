@@ -1,4 +1,8 @@
+import 'dart:async';
+import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
+import 'package:path_provider/path_provider.dart';
 
 MqttServerClient? client;
 String topic = 'prueba';
@@ -9,3 +13,6 @@ int port = 1883;
 String clientIdentifier = 'GuzziZander';
 String mensaje = 'DESCONECTADO';
 bool estado = false;
+Color iconColor = Colors.redAccent;
+
+//class 
