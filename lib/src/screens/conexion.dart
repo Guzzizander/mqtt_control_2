@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
@@ -24,7 +25,7 @@ class _Conexion extends State<Conexion> {
   @override
   // Clean up the controller when the widget is disposed.
   void dispose() {
-    tConfig.dispose();
+    tNombre.dispose();
     tBroker.dispose();
     tTopic.dispose();
     tPort.dispose();
@@ -32,27 +33,33 @@ class _Conexion extends State<Conexion> {
     super.dispose();
   }
 
-  final tConfig = TextEditingController();
+  final tNombre = TextEditingController();
   final tBroker = TextEditingController();
   final tTopic = TextEditingController();
   final tPort = TextEditingController();
   final tIdentificador = TextEditingController();
 
+  late final vars.CounterStorage storage;
+
   void cargaDatos() {
+    tNombre.text = vars.nombre;
     tBroker.text = vars.broker;
     tTopic.text = vars.topic;
     tPort.text = vars.port.toString();
     tIdentificador.text = vars.clientIdentifier;
   }
 
-  Future<String> get _localPath async {
-    final directorio = await getApplicationDocumentsDirectory();
-    return directorio.path;
-  }
+  String creaJson() {
+    print('Creando JSON');
 
-  Future<File> get _localFile async {
-    final path = await _localPath;
-    return File('$path/config.json');
+    vars.Conexion conexion = new vars.Conexion(vars.nombre, vars.broker,
+        vars.topic, vars.port.toString(), vars.clientIdentifier);
+
+    print('vars.nombre -> ' + vars.nombre);
+    print('conexion.nombre .> ' + conexion.cNombre);
+
+    String json = jsonEncode(conexion);
+    return json;
   }
 
   @override
@@ -106,7 +113,7 @@ class _Conexion extends State<Conexion> {
                   //mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
                     TextField(
-                      controller: tConfig,
+                      controller: tNombre,
                       decoration:
                           InputDecoration(hintText: 'Nombre configuracion'),
                     ),
@@ -131,6 +138,8 @@ class _Conexion extends State<Conexion> {
                       onPressed: () {
                         // Guardar la configuracion en el fichero
                         print('AÑADIDO');
+                        String t = creaJson();
+                        print(t);
                       },
                       icon: FaIcon(FontAwesomeIcons.circleCheck),
                       iconSize: 40,
