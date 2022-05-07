@@ -8,15 +8,15 @@ MqttServerClient? client;
 String nombre = 'Casa';
 String topic = 'prueba';
 String broker = '192.168.0.133';
-int port = 1883;
+String port = '1883';
 //String username = 'your_username';
 //String password = 'your_password';
-String clientIdentifier = 'GuzziZander';
+String identificador = 'GuzziZander';
 String mensaje = 'DESCONECTADO';
 bool estado = false;
 Color iconColor = Colors.redAccent;
 
-class CounterStorage {
+class GuardaConfigs {
   Future<String> get _localPath async {
     final directory = await getApplicationDocumentsDirectory();
 
@@ -25,28 +25,29 @@ class CounterStorage {
 
   Future<File> get _localFile async {
     final path = await _localPath;
+    print('$path/conexiones.json');
     return File('$path/conexiones.json');
   }
 
-  Future<int> readCounter() async {
+  Future<int> readConfig() async {
     try {
       final file = await _localFile;
 
       // Read the file
-      final contents = await file.readAsString();
+      final JSON = await file.readAsString();
 
-      return int.parse(contents);
+      return int.parse(JSON);
     } catch (e) {
       // If encountering an error, return 0
       return 0;
     }
   }
 
-  Future<File> writeCounter(int counter) async {
+  Future<File> writeConfig(String json) async {
     final file = await _localFile;
 
     // Write the file
-    return file.writeAsString('$counter');
+    return file.writeAsString('$json');
   }
 }
 
@@ -72,6 +73,6 @@ class Conexion {
         'IP': cIP,
         'Topic': cTopic,
         'Port': cPort,
-        'Identofocador': cIdentificador
+        'Identificador': cIdentificador
       };
 }

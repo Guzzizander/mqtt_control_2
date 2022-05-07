@@ -1,10 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:path_provider/path_provider.dart';
 import '../variables.dart' as vars;
 
 class Conexion extends StatefulWidget {
@@ -39,21 +37,21 @@ class _Conexion extends State<Conexion> {
   final tPort = TextEditingController();
   final tIdentificador = TextEditingController();
 
-  late final vars.CounterStorage storage;
+  late final vars.GuardaConfigs config;
 
   void cargaDatos() {
     tNombre.text = vars.nombre;
     tBroker.text = vars.broker;
     tTopic.text = vars.topic;
-    tPort.text = vars.port.toString();
-    tIdentificador.text = vars.clientIdentifier;
+    tPort.text = vars.port;
+    tIdentificador.text = vars.identificador;
   }
 
   String creaJson() {
     print('Creando JSON');
 
-    vars.Conexion conexion = new vars.Conexion(vars.nombre, vars.broker,
-        vars.topic, vars.port.toString(), vars.clientIdentifier);
+    vars.Conexion conexion = new vars.Conexion(tNombre.text, tBroker.text,
+        tTopic.text, tPort.text, tIdentificador.text);
 
     print('vars.nombre -> ' + vars.nombre);
     print('conexion.nombre .> ' + conexion.cNombre);
@@ -138,8 +136,9 @@ class _Conexion extends State<Conexion> {
                       onPressed: () {
                         // Guardar la configuracion en el fichero
                         print('AÑADIDO');
-                        String t = creaJson();
-                        print(t);
+                        String json = creaJson();
+                        print(json);
+                        vars.GuardaConfigs().writeConfig(json);
                       },
                       icon: FaIcon(FontAwesomeIcons.circleCheck),
                       iconSize: 40,
