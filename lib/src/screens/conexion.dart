@@ -37,9 +37,16 @@ class _Conexion extends State<Conexion> {
   final tPort = TextEditingController();
   final tIdentificador = TextEditingController();
 
-  late final vars.GuardaConfigs config;
-
   void cargaDatos() {
+    /*
+    Future<String> JSON = vars.GuardaConfigs().readConfig();
+
+    Map<String, dynamic> jsonMap = jsonDecode(Future<String> JSON);
+    var nombre = Nombre.fromJson(jsonMap);
+
+    print('JSON -> $JSON');
+   */
+
     tNombre.text = vars.nombre;
     tBroker.text = vars.broker;
     tTopic.text = vars.topic;
@@ -138,7 +145,7 @@ class _Conexion extends State<Conexion> {
                         print('AÑADIDO');
                         String json = creaJson();
                         print(json);
-                        vars.GuardaConfigs().writeConfig(json);
+                        //vars.GuardaConfigs().writeConfig(json);
                       },
                       icon: FaIcon(FontAwesomeIcons.circleCheck),
                       iconSize: 40,
@@ -165,16 +172,6 @@ class _Conexion extends State<Conexion> {
     vars.client!.secure = false;
 
     vars.topic = tTopic.text;
-
-    /*
-    final connMessage = MqttConnectMessage()
-        //.authenticateAs(username, password)
-        //.keepAliveFor(60)
-        .startClean()
-        .withWillQos(MqttQos.atLeastOnce)
-        .withClientIdentifier(clientIdentifier);
-    */
-
     try {
       await vars.client!.connect();
     } catch (e) {

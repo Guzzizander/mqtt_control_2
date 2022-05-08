@@ -16,30 +16,26 @@ String mensaje = 'DESCONECTADO';
 bool estado = false;
 Color iconColor = Colors.redAccent;
 
-class GuardaConfigs {
+class Configs {
   Future<String> get _localPath async {
     final directory = await getApplicationDocumentsDirectory();
-
     return directory.path;
   }
 
   Future<File> get _localFile async {
     final path = await _localPath;
-    print('$path/conexiones.json');
     return File('$path/conexiones.json');
   }
 
-  Future<int> readConfig() async {
+  Future<String> readConfig() async {
     try {
       final file = await _localFile;
-
       // Read the file
       final JSON = await file.readAsString();
-
-      return int.parse(JSON);
+      return JSON;
     } catch (e) {
       // If encountering an error, return 0
-      return 0;
+      return 'ERROR';
     }
   }
 
