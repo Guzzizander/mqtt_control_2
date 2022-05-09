@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart';
 import '../variables.dart' as vars;
@@ -43,8 +41,20 @@ class _Configuracion extends State<Configuracion> {
                         children: <Widget>[
                           InkWell(
                             onTap: () {
+                              /*
                               Navigator.push(context,
                                   MaterialPageRoute(builder: (_) => Welcome()));
+                              */
+                              print(newData[index]);
+                              vars.nombre = newData[index]['Nombre'];
+                              vars.topic = newData[index]['IP'];
+                              vars.broker = newData[index]['Topic'];
+                              vars.port = newData[index]['Port'];
+                              vars.identificador =
+                                  newData[index]['Identificador'];
+                              print(vars.nombre);
+
+                              DefaultTabController.of(context)!.animateTo(1);
                             },
                             child: Text(
                               newData[index]['Nombre'],
@@ -60,7 +70,7 @@ class _Configuracion extends State<Configuracion> {
                           ),
                         ],
                       ),
-                      //SizedBox(width: 20),
+                      SizedBox(width: 20),
                       /*
                       Container(
                         height: 50,
@@ -68,6 +78,12 @@ class _Configuracion extends State<Configuracion> {
                         child: Image.asset(newData[index]['img']),
                       )
                       */
+                      Container(
+                        height: 25,
+                        width: 40,
+                        child: Icon(Icons.delete,
+                            color: Colors.redAccent, size: 40.0),
+                      ),
                     ],
                   ),
                 ),
