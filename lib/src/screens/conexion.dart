@@ -38,15 +38,6 @@ class _Conexion extends State<Conexion> {
   final tIdentificador = TextEditingController();
 
   void cargaDatos() {
-    /*
-    Future<String> JSON = vars.GuardaConfigs().readConfig();
-
-    Map<String, dynamic> jsonMap = jsonDecode(Future<String> JSON);
-    var nombre = Nombre.fromJson(jsonMap);
-
-    print('JSON -> $JSON');
-   */
-
     tNombre.text = vars.nombre;
     tBroker.text = vars.broker;
     tTopic.text = vars.topic;

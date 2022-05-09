@@ -5,6 +5,7 @@ import 'package:mqtt_client/mqtt_server_client.dart';
 import 'package:path_provider/path_provider.dart';
 
 MqttServerClient? client;
+int id = 0;
 String nombre = 'Casa';
 String topic = 'prueba';
 String broker = '192.168.0.133';

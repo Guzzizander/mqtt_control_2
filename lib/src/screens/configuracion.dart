@@ -24,9 +24,6 @@ class _Configuracion extends State<Configuracion> {
         builder: (context, snapshot) {
           // Decode the JSON
           var newData = json.decode(snapshot.data.toString());
-
-          print(newData);
-
           return ListView.builder(
             itemBuilder: (BuildContext context, int index) {
               return Card(
@@ -41,43 +38,32 @@ class _Configuracion extends State<Configuracion> {
                         children: <Widget>[
                           InkWell(
                             onTap: () {
-                              /*
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (_) => Welcome()));
-                              */
                               print(newData[index]);
+                              vars.id = index;
                               vars.nombre = newData[index]['Nombre'];
-                              vars.topic = newData[index]['IP'];
-                              vars.broker = newData[index]['Topic'];
+                              vars.broker = newData[index]['IP'];
+                              vars.topic = newData[index]['Topic'];
                               vars.port = newData[index]['Port'];
                               vars.identificador =
                                   newData[index]['Identificador'];
-                              print(vars.nombre);
-
                               DefaultTabController.of(context)!.animateTo(1);
                             },
                             child: Text(
                               newData[index]['Nombre'],
-                              //'Note Title',
                               style: TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 22),
                             ),
                           ),
                           Text(
-                            newData[index]['IP'],
+                            newData[index]['IP'] +
+                                '/' +
+                                newData[index]['Topic'],
                             //'Note Text',
                             style: TextStyle(color: Colors.grey.shade600),
                           ),
                         ],
                       ),
                       SizedBox(width: 20),
-                      /*
-                      Container(
-                        height: 50,
-                        width: 50,
-                        child: Image.asset(newData[index]['img']),
-                      )
-                      */
                       Container(
                         height: 25,
                         width: 40,
