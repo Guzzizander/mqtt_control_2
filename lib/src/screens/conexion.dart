@@ -166,6 +166,7 @@ class _Conexion extends State<Conexion> {
         vars.mensaje = 'ERROR DE CONNEXION';
       });
       //print('Exception: $e');
+
     }
     return vars.client!;
   }
@@ -178,6 +179,7 @@ class _Conexion extends State<Conexion> {
       vars.estado = true;
       vars.iconColor = Colors.greenAccent;
     });
+    DefaultTabController.of(context)!.animateTo(2);
   }
 
   void onDisconnected() {
