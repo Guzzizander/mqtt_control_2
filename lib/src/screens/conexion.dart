@@ -72,10 +72,6 @@ class _Conexion extends State<Conexion> {
     // Carga los datos del fichero variables en los textfield
     cargaDatos();
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('MQTT Control'),
-        centerTitle: true,
-      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,

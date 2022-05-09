@@ -39,15 +39,10 @@ class _Menu extends State<Menu> with SingleTickerProviderStateMixin {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
-        /* appBar: new PreferredSize(
-          preferredSize: Size.fromHeight(40),
-          child: new Container(
-            color: Color(0xFF428DA3),
-            child: new SafeArea(
-              child:
-            ),
-          ),
-        ),*/
+        appBar: AppBar(
+          title: const Text('MQTT Control'),
+          centerTitle: true,
+        ),
         body: Padding(
           padding: const EdgeInsets.only(top: 30.0),
           child: Column(
@@ -57,7 +52,7 @@ class _Menu extends State<Menu> with SingleTickerProviderStateMixin {
                 indicatorColor: Colors.black,
                 tabs: [
                   new Text(
-                    "Un",
+                    "Configs.",
                     style: TextStyle(
                       fontSize: 17,
                       color: Color(0xFF43669E),
@@ -65,7 +60,7 @@ class _Menu extends State<Menu> with SingleTickerProviderStateMixin {
                     textAlign: TextAlign.center,
                   ),
                   new Text(
-                    "Dos",
+                    "Conexion",
                     style: TextStyle(
                       fontSize: 15,
                       color: Color(0xFF43669E),
@@ -73,7 +68,7 @@ class _Menu extends State<Menu> with SingleTickerProviderStateMixin {
                     textAlign: TextAlign.center,
                   ),
                   new Text(
-                    "Tres",
+                    "Control",
                     style: TextStyle(
                       fontSize: 15,
                       color: Color(0xFF43669E),
@@ -92,25 +87,5 @@ class _Menu extends State<Menu> with SingleTickerProviderStateMixin {
         ),
       ),
     );
-/*
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('MQTT Control'),
-        centerTitle: true,
-        bottom: TabBar(controller: _tabController, tabs: [
-          Tab(text: 'Configuracion'),
-          Tab(text: 'Conexion'),
-          Tab(text: 'Control'),
-        ]),
-      ),
-      body: TabBarView(
-        controller: _tabController,
-        children: [
-          Configuracion(),
-          Conexion(title: 'Conexion'),
-          Control(title: 'Control'),
-        ],
-      ),
-    );*/
   }
 }
