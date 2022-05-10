@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'conexion.dart';
 import 'control.dart';
-import 'configuracion.dart';
+import 'config.dart';
 
 class Menu extends StatefulWidget {
   const Menu({Key? key, required this.title}) : super(key: key);
@@ -31,7 +31,8 @@ class _Menu extends State<Menu> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final _kTabPages = <Widget>[
-      Configuracion(),
+      //Configuracion(),
+      Config(),
       Conexion(title: 'Conexion'),
       Control(title: 'Control'),
     ];
@@ -42,6 +43,7 @@ class _Menu extends State<Menu> with SingleTickerProviderStateMixin {
         appBar: AppBar(
           title: const Text('MQTT Control'),
           centerTitle: true,
+          shadowColor: Colors.blueAccent,
         ),
         body: Padding(
           padding: const EdgeInsets.only(top: 30.0),

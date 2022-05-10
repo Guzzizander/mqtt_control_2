@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -43,19 +42,8 @@ class _Conexion extends State<Conexion> {
     tTopic.text = vars.topic;
     tPort.text = vars.port;
     tIdentificador.text = vars.identificador;
-  }
-
-  String creaJson() {
-    print('Creando JSON');
-
-    vars.Conexion conexion = new vars.Conexion(tNombre.text, tBroker.text,
-        tTopic.text, tPort.text, tIdentificador.text);
-
-    print('vars.nombre -> ' + vars.nombre);
-    print('conexion.nombre .> ' + conexion.cNombre);
-
-    String json = jsonEncode(conexion);
-    return json;
+    print(tNombre.text);
+    print(vars.broker);
   }
 
   @override
@@ -125,18 +113,6 @@ class _Conexion extends State<Conexion> {
                     TextField(
                       controller: tIdentificador,
                       decoration: InputDecoration(hintText: 'Identificador'),
-                    ),
-                    IconButton(
-                      onPressed: () {
-                        // Guardar la configuracion en el fichero
-                        print('AÑADIDO');
-                        String json = creaJson();
-                        print(json);
-                        //vars.GuardaConfigs().writeConfig(json);
-                      },
-                      icon: FaIcon(FontAwesomeIcons.circleCheck),
-                      iconSize: 40,
-                      color: Colors.blueAccent,
                     ),
                   ]),
             ),
