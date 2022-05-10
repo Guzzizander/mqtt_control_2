@@ -49,11 +49,11 @@ class _Menu extends State<Menu> with SingleTickerProviderStateMixin {
           padding: const EdgeInsets.only(top: 30.0),
           child: Column(
             children: <Widget>[
-              SizedBox(height: 20),
-              new TabBar(
+              const SizedBox(height: 20),
+              const TabBar(
                 indicatorColor: Colors.black,
                 tabs: [
-                  new Text(
+                  Text(
                     "Configs.",
                     style: TextStyle(
                       fontSize: 17,
@@ -61,7 +61,7 @@ class _Menu extends State<Menu> with SingleTickerProviderStateMixin {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  new Text(
+                  Text(
                     "Conexion",
                     style: TextStyle(
                       fontSize: 15,
@@ -69,7 +69,7 @@ class _Menu extends State<Menu> with SingleTickerProviderStateMixin {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  new Text(
+                  Text(
                     "Control",
                     style: TextStyle(
                       fontSize: 15,
