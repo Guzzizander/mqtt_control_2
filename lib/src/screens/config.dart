@@ -196,7 +196,9 @@ class _Config extends State<Config> {
                 color: vars.cardColor,
                 margin: const EdgeInsets.all(15),
                 child: ListTile(
-                    tileColor: vars.cardColor,
+                    tileColor: (_conexiones[index]['id'] == vars.id)
+                        ? Colors.greenAccent
+                        : vars.cardColor,
                     title: Text(
                       _conexiones[index]['nombre'],
                     ),

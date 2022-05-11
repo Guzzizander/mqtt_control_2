@@ -1,0 +1,23 @@
+[	
+     {	
+          "Nombre":"Casa",
+          "IP":"192.168.0.133",
+          "Topic":"prueba",
+          "Port":"1883",
+          "Identificador":"GuzziZander"
+      },
+      {
+          "Nombre":"Oficina",
+          "IP":"10.84.185.166",
+          "Topic":"prueba",
+          "Port":"1883",
+          "Identificador":"GuzziZander"      
+      },
+      {
+        "Nombre":"Otra conexion",
+        "IP":"10.84.185.166",
+        "Topic":"prueba",
+        "Port":"1883",
+        "Identificador":"GuzziZander"      
+    }		
+]	

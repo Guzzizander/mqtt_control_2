@@ -80,6 +80,7 @@ class _Conexion extends State<Conexion> {
                           vars.estado = false;
                           vars.client!.disconnect();
                           vars.iconColor = Colors.redAccent;
+                          vars.id = 0;
                         });
                       }
                     },
