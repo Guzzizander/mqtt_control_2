@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../sql_helper.dart';
+import 'conexion.dart';
 import '../variables.dart' as vars;
 
 class Config extends StatefulWidget {
@@ -206,11 +208,6 @@ class _Config extends State<Config> {
                         '/' +
                         _conexiones[index]['topic']),
                     onTap: () {
-                      /*
-                      setState(() {
-                        vars.cardColor = Colors.greenAccent;
-                      });
-                      */
                       vars.id = _conexiones[index]['id'];
                       vars.nombre = _conexiones[index]['nombre'];
                       vars.broker = _conexiones[index]['ip'];
@@ -224,6 +221,14 @@ class _Config extends State<Config> {
                       width: 100,
                       child: Row(
                         children: [
+                          IconButton(
+                            icon: FaIcon(
+                              (FontAwesomeIcons.link),
+                            ),
+                            onPressed: () {
+                              Conexion.brokerSetup();
+                            },
+                          ),
                           IconButton(
                             icon: const Icon(Icons.edit),
                             onPressed: () =>
