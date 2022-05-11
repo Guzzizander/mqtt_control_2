@@ -217,6 +217,7 @@ class _Config extends State<Config> {
                       vars.topic = _conexiones[index]['topic'];
                       vars.port = _conexiones[index]['port'];
                       vars.identificador = _conexiones[index]['identificador'];
+                      print(vars.topic);
                       DefaultTabController.of(context)!.animateTo(1);
                     },
                     trailing: SizedBox(

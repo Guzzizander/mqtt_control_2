@@ -22,34 +22,13 @@ class _Conexion extends State<Conexion> {
   @override
   // Clean up the controller when the widget is disposed.
   void dispose() {
-    tNombre.dispose();
-    tBroker.dispose();
-    tTopic.dispose();
-    tPort.dispose();
-    tIdentificador.dispose();
     super.dispose();
-  }
-
-  final tNombre = TextEditingController();
-  final tBroker = TextEditingController();
-  final tTopic = TextEditingController();
-  final tPort = TextEditingController();
-  final tIdentificador = TextEditingController();
-
-  void cargaDatos() {
-    tNombre.text = vars.nombre;
-    tBroker.text = vars.broker;
-    tTopic.text = vars.topic;
-    tPort.text = vars.port;
-    tIdentificador.text = vars.identificador;
-    print(tNombre.text);
-    print(vars.broker);
   }
 
   @override
   Widget build(BuildContext context) {
     // Carga los datos del fichero variables en los textfield
-    cargaDatos();
+    // cargaDatos();
     return Scaffold(
       body: Center(
         child: Column(
@@ -88,35 +67,6 @@ class _Conexion extends State<Conexion> {
                 ],
               ),
             ),
-            Container(
-              padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-              child: Column(
-                  //mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    TextField(
-                      controller: tNombre,
-                      decoration:
-                          InputDecoration(hintText: 'Nombre configuracion'),
-                    ),
-                    TextField(
-                      controller: tBroker,
-                      decoration: InputDecoration(
-                          hintText: 'Broker (IP:xxx.xxx.xxx.xxx)'),
-                    ),
-                    TextField(
-                      controller: tTopic,
-                      decoration: InputDecoration(hintText: 'Topic'),
-                    ),
-                    TextField(
-                      controller: tPort,
-                      decoration: InputDecoration(hintText: 'Puerto (1883)'),
-                    ),
-                    TextField(
-                      controller: tIdentificador,
-                      decoration: InputDecoration(hintText: 'Identificador'),
-                    ),
-                  ]),
-            ),
           ],
         ),
       ),
@@ -125,7 +75,7 @@ class _Conexion extends State<Conexion> {
 
   Future<MqttServerClient> brokerSetup() async {
     vars.client = MqttServerClient.withPort(
-        tBroker.text, tIdentificador.text, int.parse(tPort.text));
+        vars.broker, vars.identificador, int.parse(vars.port));
 
     vars.client!.logging(on: true);
     vars.client!.onConnected = onConnected;
@@ -135,7 +85,6 @@ class _Conexion extends State<Conexion> {
     vars.client!.pongCallback = pong;
     vars.client!.secure = false;
 
-    vars.topic = tTopic.text;
     try {
       await vars.client!.connect();
     } catch (e) {
