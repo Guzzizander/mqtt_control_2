@@ -18,23 +18,19 @@ class _Menu extends State<Menu> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    // _tabController = TabController(length: 3, vsync: this);
   }
 
   @override
   // Clean up the controller when the widget is disposed.
   void dispose() {
-    // _tabController!.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final _kTabPages = <Widget>[
-      //Configuracion(),
-      Config(),
-      //  Conexion(title: 'Conexion'),
-      Control(title: 'Control'),
+      const Config(),
+      const Control(title: 'Control'),
     ];
 
     return DefaultTabController(
@@ -61,16 +57,6 @@ class _Menu extends State<Menu> with SingleTickerProviderStateMixin {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  /*
-                  Text(
-                    "Conexion",
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: Color(0xFF43669E),
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  */
                   Text(
                     "Control",
                     style: TextStyle(
