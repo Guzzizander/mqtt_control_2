@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'conexion.dart';
+//import 'conexion.dart';
 import 'control.dart';
 import 'config.dart';
 
@@ -33,12 +33,12 @@ class _Menu extends State<Menu> with SingleTickerProviderStateMixin {
     final _kTabPages = <Widget>[
       //Configuracion(),
       Config(),
-      Conexion(title: 'Conexion'),
+      //  Conexion(title: 'Conexion'),
       Control(title: 'Control'),
     ];
 
     return DefaultTabController(
-      length: 3,
+      length: 2,
       child: Scaffold(
         appBar: AppBar(
           title: const Text('MQTT Control'),
@@ -61,6 +61,7 @@ class _Menu extends State<Menu> with SingleTickerProviderStateMixin {
                     ),
                     textAlign: TextAlign.center,
                   ),
+                  /*
                   Text(
                     "Conexion",
                     style: TextStyle(
@@ -69,6 +70,7 @@ class _Menu extends State<Menu> with SingleTickerProviderStateMixin {
                     ),
                     textAlign: TextAlign.center,
                   ),
+                  */
                   Text(
                     "Control",
                     style: TextStyle(

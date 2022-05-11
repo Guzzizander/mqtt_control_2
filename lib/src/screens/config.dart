@@ -149,7 +149,7 @@ class _Config extends State<Config> {
             ));
   }
 
-// Insert a new journal to the database
+// Inserta un nuevo registro en la BD
   Future<void> _addItem() async {
     await SQLHelper.createItem(
         _nombreController.text,
@@ -162,7 +162,7 @@ class _Config extends State<Config> {
     _refreshConexiones();
   }
 
-  // Update an existing journal
+  // Modifica un registro existente por id
   Future<void> _updateItem(int id) async {
     await SQLHelper.updateItem(
         id,
@@ -176,7 +176,7 @@ class _Config extends State<Config> {
     _refreshConexiones();
   }
 
-  // Delete an item
+  // Borra un registro
   void _deleteItem(int id) async {
     await SQLHelper.deleteItem(id);
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -214,19 +214,41 @@ class _Config extends State<Config> {
                       vars.topic = _conexiones[index]['topic'];
                       vars.port = _conexiones[index]['port'];
                       vars.identificador = _conexiones[index]['identificador'];
-                      print(vars.topic);
-                      DefaultTabController.of(context)!.animateTo(1);
+                      // Cambia a la Pantalla de conexion
+                      //DefaultTabController.of(context)!.animateTo(1);
                     },
                     trailing: SizedBox(
-                      width: 100,
+                      width: 150,
                       child: Row(
                         children: [
                           IconButton(
-                            icon: FaIcon(
-                              (FontAwesomeIcons.link),
-                            ),
+                            icon: ((vars.estado) &&
+                                    (_conexiones[index]['id'] == vars.id))
+                                ? FaIcon((FontAwesomeIcons.link),
+                                    //color: vars.iconColor)
+                                    color: Colors.blueAccent)
+                                : FaIcon((FontAwesomeIcons.linkSlash),
+                                    //color: vars.iconColor),
+                                    color: Colors.redAccent),
                             onPressed: () {
-                              brokerSetup();
+                              if (!vars.estado) {
+                                vars.id = _conexiones[index]['id'];
+                                vars.nombre = _conexiones[index]['nombre'];
+                                vars.broker = _conexiones[index]['ip'];
+                                vars.topic = _conexiones[index]['topic'];
+                                vars.port = _conexiones[index]['port'];
+                                vars.identificador =
+                                    _conexiones[index]['identificador'];
+                                brokerSetup();
+                              } else {
+                                setState(() {
+                                  vars.mensaje = 'DESCONECTADO';
+                                  vars.estado = false;
+                                  vars.client!.disconnect();
+                                  vars.iconColor = Colors.redAccent;
+                                  vars.id = 0;
+                                });
+                              }
                             },
                           ),
                           IconButton(
@@ -268,6 +290,7 @@ class _Config extends State<Config> {
     } catch (e) {
       setState(() {
         vars.mensaje = 'ERROR DE CONNEXION';
+        vars.iconColor = Colors.redAccent;
       });
       //print('Exception: $e');
 
@@ -281,9 +304,9 @@ class _Config extends State<Config> {
     setState(() {
       vars.mensaje = 'CONECTADO';
       vars.estado = true;
-      vars.iconColor = Colors.greenAccent;
+      vars.iconColor = Colors.blueAccent;
     });
-    DefaultTabController.of(context)!.animateTo(2);
+    DefaultTabController.of(context)!.animateTo(1);
   }
 
   void onDisconnected() {

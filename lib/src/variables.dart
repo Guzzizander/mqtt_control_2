@@ -13,4 +13,4 @@ String identificador = 'GuzziZander';
 String mensaje = 'DESCONECTADO';
 bool estado = false;
 Color iconColor = Colors.redAccent;
-Color cardColor = Colors.grey;
+Color cardColor = Color.fromARGB(255, 194, 191, 191);

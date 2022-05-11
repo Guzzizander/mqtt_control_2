@@ -90,6 +90,7 @@ class _Conexion extends State<Conexion> {
     } catch (e) {
       setState(() {
         vars.mensaje = 'ERROR DE CONNEXION';
+        vars.iconColor = Colors.redAccent;
       });
       //print('Exception: $e');
 
