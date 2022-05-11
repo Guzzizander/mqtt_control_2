@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:mqtt_client/mqtt_server_client.dart';
 import '../sql_helper.dart';
-import 'conexion.dart';
 import '../variables.dart' as vars;
 
 class Config extends StatefulWidget {
@@ -226,7 +226,7 @@ class _Config extends State<Config> {
                               (FontAwesomeIcons.link),
                             ),
                             onPressed: () {
-                              Conexion.brokerSetup();
+                              brokerSetup();
                             },
                           ),
                           IconButton(
@@ -249,5 +249,66 @@ class _Config extends State<Config> {
         onPressed: () => _showForm(null),
       ),
     );
+  }
+
+  Future<MqttServerClient> brokerSetup() async {
+    vars.client = MqttServerClient.withPort(
+        vars.broker, vars.identificador, int.parse(vars.port));
+
+    vars.client!.logging(on: true);
+    vars.client!.onConnected = onConnected;
+    vars.client!.onDisconnected = onDisconnected;
+    vars.client!.onSubscribed = onSubscribed;
+    vars.client!.onSubscribeFail = onSubscribeFail;
+    vars.client!.pongCallback = pong;
+    vars.client!.secure = false;
+
+    try {
+      await vars.client!.connect();
+    } catch (e) {
+      setState(() {
+        vars.mensaje = 'ERROR DE CONNEXION';
+      });
+      //print('Exception: $e');
+
+    }
+    return vars.client!;
+  }
+
+//actions
+  void onConnected() {
+    //print('Conectado');
+    setState(() {
+      vars.mensaje = 'CONECTADO';
+      vars.estado = true;
+      vars.iconColor = Colors.greenAccent;
+    });
+    DefaultTabController.of(context)!.animateTo(2);
+  }
+
+  void onDisconnected() {
+    //print('desconectado');
+  }
+
+  void onSubscribed(String topic) {
+    //print('subscribed to $topic');
+    /*
+    // No estoy suscrito ya que no tengo que recibir mensajes
+    setState(() {
+      vars.mensaje = 'SUBSCRITO A ' + topic.toUpperCase();
+    });
+    */
+  }
+
+  void onSubscribeFail(String topic) {
+    //print('failed to subscribe to $topic');
+  }
+
+  void on() {
+    //print('disconnected');
+  }
+
+  void pong() {
+    //print('ping response arrived');
   }
 }
