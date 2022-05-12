@@ -25,12 +25,6 @@ class _Control extends State<Control> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      /*
-      appBar: AppBar(
-        title: const Text('MQTT Control 2'),
-        centerTitle: true,
-      ),
-      */
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -83,7 +77,6 @@ class _Control extends State<Control> {
               color: Colors.black,
               onPressed: vars.estado
                   ? () {
-                      print('Abajo');
                       _publicaMensaje('Abajo');
                     }
                   : null,

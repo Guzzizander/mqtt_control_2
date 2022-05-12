@@ -1,4 +1,4 @@
-#Wed May 11 20:33:51 CEST 2022
+#Thu May 12 18:06:47 CEST 2022
 base.0=/home/juanjo/AndroidStudioProjects/mqtt_control_2/build/app/intermediates/dex/debug/mergeDexDebug/classes.dex
 renamed.0=classes.dex
 path.0=classes.dex
