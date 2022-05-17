@@ -68,7 +68,7 @@ class _Control extends State<Control> {
               child: Container(
                 child: IconButton(
                   iconSize: 72,
-                  icon: const FaIcon(FontAwesomeIcons.circleUp),
+                  icon: FaIcon(FontAwesomeIcons.circleUp),
                   color: Colors.black,
                   onPressed: vars.estado
                       ? () {
@@ -103,30 +103,32 @@ class _Control extends State<Control> {
                     ),
                   ),
                 ),
-                Listener(
-                  onPointerDown: (details) {
-                    _buttonPressed = true;
-                    _pulsado('Stop');
-                  },
-                  onPointerUp: (details) {
-                    _buttonPressed = false;
-                  },
-                  child: Container(
-                    width: 72,
-                    height: 72,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.redAccent,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black12,
-                          spreadRadius: 2,
-                          blurRadius: 3,
-                          offset: Offset(0, 3),
-                        )
-                      ],
-                    ),
-                  ),
+                // Boton Paro / Marcha
+                IconButton(
+                  iconSize: 72,
+                  icon: vars.iconMarcha,
+                  color: vars.iconMarchaColor,
+                  onPressed: vars.estado
+                      ? () {
+                          if (vars.marcha) {
+                            _publicaMensaje('Paro');
+                            setState(() {
+                              vars.marcha = false;
+                              vars.iconMarcha =
+                                  FaIcon(FontAwesomeIcons.solidCirclePlay);
+                              vars.iconMarchaColor = Colors.redAccent;
+                            });
+                          } else {
+                            _publicaMensaje('Marcha');
+                            setState(() {
+                              vars.marcha = true;
+                              vars.iconMarcha =
+                                  FaIcon(FontAwesomeIcons.solidCircleStop);
+                              vars.iconMarchaColor = Colors.blueAccent;
+                            });
+                          }
+                        }
+                      : null,
                 ),
                 Listener(
                   onPointerDown: (details) {

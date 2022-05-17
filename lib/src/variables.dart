@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 
 MqttServerClient? client;
@@ -12,5 +13,9 @@ String port = '1883';
 String identificador = 'GuzziZander';
 String mensaje = 'DESCONECTADO';
 bool estado = false;
+bool marcha = false;
 Color iconColor = Colors.redAccent;
 Color cardColor = const Color.fromARGB(255, 194, 191, 191);
+//FaIcon iconParo = FaIcon(FontAwesomeIcons.solidCircleStop);
+FaIcon iconMarcha = FaIcon(FontAwesomeIcons.solidCirclePlay);
+Color iconMarchaColor = Colors.redAccent;
