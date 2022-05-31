@@ -198,12 +198,18 @@ class _Config extends State<Config> {
                 child: Column(
                   children: [
                     Container(
-                      color: Colors.blue,
-                      height: 230,
+                      color: Colors.blueAccent,
+                      height: 40,
                       child: Align(
                         alignment: Alignment.center,
                         child: Text(
                           vars.textoMensajes,
+                          style: TextStyle(
+                            fontFamily: 'Verdana',
+                            fontSize: 10,
+                            color: Colors.white,
+                            height: 1,
+                          ),
                           maxLines: 5,
                           textAlign: TextAlign.center,
                         ),
