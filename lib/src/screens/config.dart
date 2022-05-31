@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 import '../sql_helper.dart';
 import '../variables.dart' as vars;
@@ -192,46 +193,45 @@ class _Config extends State<Config> {
           ? const Center(
               child: CircularProgressIndicator(),
             )
-          : ListView.builder(
-              itemCount: _conexiones.length,
-              itemBuilder: (context, index) => Card(
-                color: vars.cardColor,
-                margin: const EdgeInsets.all(15),
-                child: ListTile(
-                    tileColor: (_conexiones[index]['id'] == vars.id)
-                        ? Colors.greenAccent
-                        : vars.cardColor,
-                    title: Text(
-                      _conexiones[index]['nombre'],
+          : Center(
+              child: Container(
+                child: Column(
+                  children: [
+                    Container(
+                      color: Colors.blueAccent,
+                      height: 40,
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          vars.textoMensajes,
+                          style: TextStyle(
+                            fontFamily: 'Verdana',
+                            fontSize: 10,
+                            color: Colors.white,
+                            height: 1,
+                          ),
+                          maxLines: 5,
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
                     ),
-                    subtitle: Text(_conexiones[index]['ip'] +
-                        '/' +
-                        _conexiones[index]['topic']),
-                    onTap: () {
-                      vars.id = _conexiones[index]['id'];
-                      vars.nombre = _conexiones[index]['nombre'];
-                      vars.broker = _conexiones[index]['ip'];
-                      vars.topic = _conexiones[index]['topic'];
-                      vars.port = _conexiones[index]['port'];
-                      vars.identificador = _conexiones[index]['identificador'];
-                      // Cambia a la Pantalla de conexion
-                      //DefaultTabController.of(context)!.animateTo(1);
-                    },
-                    trailing: SizedBox(
-                      width: 150,
-                      child: Row(
-                        children: [
-                          IconButton(
-                            icon: ((vars.estado) &&
-                                    (_conexiones[index]['id'] == vars.id))
-                                ? FaIcon((FontAwesomeIcons.link),
-                                    //color: vars.iconColor)
-                                    color: Colors.blueAccent)
-                                : FaIcon((FontAwesomeIcons.linkSlash),
-                                    //color: vars.iconColor),
-                                    color: Colors.redAccent),
-                            onPressed: () {
-                              if (!vars.estado) {
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: _conexiones.length,
+                        itemBuilder: (context, index) => Card(
+                          color: vars.cardColor,
+                          margin: const EdgeInsets.all(15),
+                          child: ListTile(
+                              tileColor: (_conexiones[index]['id'] == vars.id)
+                                  ? Colors.greenAccent
+                                  : vars.cardColor,
+                              title: Text(
+                                _conexiones[index]['nombre'],
+                              ),
+                              subtitle: Text(_conexiones[index]['ip'] +
+                                  '/' +
+                                  _conexiones[index]['topic']),
+                              onTap: () {
                                 vars.id = _conexiones[index]['id'];
                                 vars.nombre = _conexiones[index]['nombre'];
                                 vars.broker = _conexiones[index]['ip'];
@@ -239,31 +239,70 @@ class _Config extends State<Config> {
                                 vars.port = _conexiones[index]['port'];
                                 vars.identificador =
                                     _conexiones[index]['identificador'];
-                                brokerSetup();
-                              } else {
-                                setState(() {
-                                  vars.mensaje = 'DESCONECTADO';
-                                  vars.estado = false;
-                                  vars.client!.disconnect();
-                                  vars.iconColor = Colors.redAccent;
-                                  vars.id = 0;
-                                });
-                              }
-                            },
-                          ),
-                          IconButton(
-                            icon: const Icon(Icons.edit),
-                            onPressed: () =>
-                                _showForm(_conexiones[index]['id']),
-                          ),
-                          IconButton(
-                            icon: const Icon(Icons.delete),
-                            onPressed: () =>
-                                _deleteItem(_conexiones[index]['id']),
-                          ),
-                        ],
+                                // Cambia a la Pantalla de conexion
+                                //DefaultTabController.of(context)!.animateTo(1);
+                              },
+                              trailing: SizedBox(
+                                width: 150,
+                                child: Row(
+                                  children: [
+                                    IconButton(
+                                      icon: ((vars.estado) &&
+                                              (_conexiones[index]['id'] ==
+                                                  vars.id))
+                                          ? FaIcon((FontAwesomeIcons.link),
+                                              //color: vars.iconColor)
+                                              color: Colors.blueAccent)
+                                          : FaIcon((FontAwesomeIcons.linkSlash),
+                                              //color: vars.iconColor),
+                                              color: Colors.redAccent),
+                                      onPressed: () {
+                                        if (!vars.estado) {
+                                          vars.id = _conexiones[index]['id'];
+                                          vars.nombre =
+                                              _conexiones[index]['nombre'];
+                                          vars.broker =
+                                              _conexiones[index]['ip'];
+                                          vars.topic =
+                                              _conexiones[index]['topic'];
+                                          vars.port =
+                                              _conexiones[index]['port'];
+                                          vars.identificador =
+                                              _conexiones[index]
+                                                  ['identificador'];
+                                          brokerSetup();
+                                        } else {
+                                          setState(() {
+                                            vars.mensaje = 'DESCONECTADO';
+                                            vars.estado = false;
+                                            vars.client!.disconnect();
+                                            vars.iconColor = Colors.redAccent;
+                                            vars.id = 0;
+                                            vars.textoMensajes = 'DESCONECTADO';
+                                          });
+                                          // En principio no hace falta
+                                          //estadoConexion();
+                                        }
+                                      },
+                                    ),
+                                    IconButton(
+                                      icon: const Icon(Icons.edit),
+                                      onPressed: () =>
+                                          _showForm(_conexiones[index]['id']),
+                                    ),
+                                    IconButton(
+                                      icon: const Icon(Icons.delete),
+                                      onPressed: () =>
+                                          _deleteItem(_conexiones[index]['id']),
+                                    ),
+                                  ],
+                                ),
+                              )),
+                        ),
                       ),
-                    )),
+                    ),
+                  ],
+                ),
               ),
             ),
       floatingActionButton: FloatingActionButton(
@@ -278,6 +317,11 @@ class _Config extends State<Config> {
         vars.broker, vars.identificador, int.parse(vars.port));
 
     vars.client!.logging(on: true);
+    //vars.client!.setProtocolV311();
+    vars.client!.autoReconnect = true;
+    vars.client!.onAutoReconnect = onAutoReconnect;
+    vars.client!.onAutoReconnected = onAutoReconnected;
+    vars.client!.keepAlivePeriod = 20;
     vars.client!.onConnected = onConnected;
     vars.client!.onDisconnected = onDisconnected;
     vars.client!.onSubscribed = onSubscribed;
@@ -291,26 +335,27 @@ class _Config extends State<Config> {
       setState(() {
         vars.mensaje = 'ERROR DE CONNEXION';
         vars.iconColor = Colors.redAccent;
+        vars.textoMensajes = 'ERROR DE CONNEXION \n $e';
       });
       //print('Exception: $e');
-
     }
     return vars.client!;
   }
 
 //actions
   void onConnected() {
-    //print('Conectado');
+    estadoConexion();
     setState(() {
       vars.mensaje = 'CONECTADO';
       vars.estado = true;
       vars.iconColor = Colors.blueAccent;
+      vars.textoMensajes = 'CONECTADO';
     });
     DefaultTabController.of(context)!.animateTo(1);
   }
 
   void onDisconnected() {
-    //print('desconectado');
+    //estadoConexion();
   }
 
   void onSubscribed(String topic) {
@@ -333,5 +378,46 @@ class _Config extends State<Config> {
 
   void pong() {
     //print('ping response arrived');
+    setState(() {
+      vars.textoMensajes = 'EXAMPLE::Ping response client callback invoked';
+    });
+  }
+
+  void estadoConexion() {
+    String estado = '';
+    if (vars.client!.connectionStatus!.state == MqttConnectionState.connected) {
+      //print('EXAMPLE::Mosquitto client connected');
+      estado = 'EXAMPLE::Mosquitto client connected';
+    } else {
+      /// Use status here rather than state if you also want the broker return code.
+      //print(
+      //    'EXAMPLE::ERROR Mosquitto client connection failed - disconnecting, status is ${vars.client!.connectionStatus}');
+      vars.client!.disconnect();
+      estado =
+          'EXAMPLE::ERROR Mosquitto client connection failed - disconnecting, status is ${vars.client!.connectionStatus}';
+    }
+    setState(() {
+      vars.textoMensajes = estado;
+    });
+  }
+
+  /// The pre auto re connect callback
+  void onAutoReconnect() {
+    //print(
+    //    'EXAMPLE::onAutoReconnect client callback - Client auto reconnection sequence will start');
+    setState(() {
+      vars.textoMensajes =
+          'EXAMPLE::onAutoReconnect client callback - Client auto reconnection sequence will start';
+    });
+  }
+
+  void onAutoReconnected() {
+    //print(
+    //    'EXAMPLE::onAutoReconnected client callback - Client auto reconnection sequence has completed');
+
+    setState(() {
+      vars.textoMensajes =
+          'EXAMPLE::onAutoReconnected client callback - Client auto reconnection sequence has completed';
+    });
   }
 }

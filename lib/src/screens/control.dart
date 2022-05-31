@@ -40,6 +40,10 @@ class _Control extends State<Control> {
   void _publicaMensaje(String mensaje) {
     builder.clear();
     builder.addString(mensaje);
+    print('+++++++++++++++++++++++++++++');
+    print(builder.payload);
+    print(mensaje);
+    print('+++++++++++++++++++++++++++++');
     vars.client!
         .publishMessage(vars.topic, MqttQos.atLeastOnce, builder.payload!);
   }

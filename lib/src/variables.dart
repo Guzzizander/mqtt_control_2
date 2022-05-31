@@ -19,3 +19,4 @@ Color cardColor = const Color.fromARGB(255, 194, 191, 191);
 //FaIcon iconParo = FaIcon(FontAwesomeIcons.solidCircleStop);
 FaIcon iconMarcha = FaIcon(FontAwesomeIcons.solidCirclePlay);
 Color iconMarchaColor = Colors.redAccent;
+String textoMensajes = 'Hola Radiola';
