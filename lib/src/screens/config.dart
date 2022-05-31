@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:mqtt_client/mqtt_server_client.dart';
 import 'package:mqtt_client/mqtt_client.dart';
+import 'package:mqtt_client/mqtt_server_client.dart';
 import '../sql_helper.dart';
 import '../variables.dart' as vars;
 
@@ -272,7 +272,10 @@ class _Config extends State<Config> {
                                             vars.client!.disconnect();
                                             vars.iconColor = Colors.redAccent;
                                             vars.id = 0;
+                                            vars.textoMensajes = 'DESCONECTADO';
                                           });
+                                          // En principio no hace falta
+                                          //estadoConexion();
                                         }
                                       },
                                     ),
@@ -308,6 +311,11 @@ class _Config extends State<Config> {
         vars.broker, vars.identificador, int.parse(vars.port));
 
     vars.client!.logging(on: true);
+    //vars.client!.setProtocolV311();
+    vars.client!.autoReconnect = true;
+    vars.client!.onAutoReconnect = onAutoReconnect;
+    vars.client!.onAutoReconnected = onAutoReconnected;
+    vars.client!.keepAlivePeriod = 20;
     vars.client!.onConnected = onConnected;
     vars.client!.onDisconnected = onDisconnected;
     vars.client!.onSubscribed = onSubscribed;
@@ -321,7 +329,7 @@ class _Config extends State<Config> {
       setState(() {
         vars.mensaje = 'ERROR DE CONNEXION';
         vars.iconColor = Colors.redAccent;
-        vars.textoMensajes = '$e';
+        vars.textoMensajes = 'ERROR DE CONNEXION \n $e';
       });
       //print('Exception: $e');
     }
@@ -330,7 +338,7 @@ class _Config extends State<Config> {
 
 //actions
   void onConnected() {
-    //print('Conectado');
+    estadoConexion();
     setState(() {
       vars.mensaje = 'CONECTADO';
       vars.estado = true;
@@ -341,7 +349,7 @@ class _Config extends State<Config> {
   }
 
   void onDisconnected() {
-    //print('desconectado');
+    //estadoConexion();
   }
 
   void onSubscribed(String topic) {
@@ -364,5 +372,46 @@ class _Config extends State<Config> {
 
   void pong() {
     //print('ping response arrived');
+    setState(() {
+      vars.textoMensajes = 'EXAMPLE::Ping response client callback invoked';
+    });
+  }
+
+  void estadoConexion() {
+    String estado = '';
+    if (vars.client!.connectionStatus!.state == MqttConnectionState.connected) {
+      //print('EXAMPLE::Mosquitto client connected');
+      estado = 'EXAMPLE::Mosquitto client connected';
+    } else {
+      /// Use status here rather than state if you also want the broker return code.
+      //print(
+      //    'EXAMPLE::ERROR Mosquitto client connection failed - disconnecting, status is ${vars.client!.connectionStatus}');
+      vars.client!.disconnect();
+      estado =
+          'EXAMPLE::ERROR Mosquitto client connection failed - disconnecting, status is ${vars.client!.connectionStatus}';
+    }
+    setState(() {
+      vars.textoMensajes = estado;
+    });
+  }
+
+  /// The pre auto re connect callback
+  void onAutoReconnect() {
+    //print(
+    //    'EXAMPLE::onAutoReconnect client callback - Client auto reconnection sequence will start');
+    setState(() {
+      vars.textoMensajes =
+          'EXAMPLE::onAutoReconnect client callback - Client auto reconnection sequence will start';
+    });
+  }
+
+  void onAutoReconnected() {
+    //print(
+    //    'EXAMPLE::onAutoReconnected client callback - Client auto reconnection sequence has completed');
+
+    setState(() {
+      vars.textoMensajes =
+          'EXAMPLE::onAutoReconnected client callback - Client auto reconnection sequence has completed';
+    });
   }
 }

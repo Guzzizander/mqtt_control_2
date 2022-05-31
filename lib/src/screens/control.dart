@@ -40,6 +40,10 @@ class _Control extends State<Control> {
   void _publicaMensaje(String mensaje) {
     builder.clear();
     builder.addString(mensaje);
+    print('+++++++++++++++++++++++++++++');
+    print(builder.payload);
+    print(mensaje);
+    print('+++++++++++++++++++++++++++++');
     vars.client!
         .publishMessage(vars.topic, MqttQos.atLeastOnce, builder.payload!);
   }
@@ -60,7 +64,7 @@ class _Control extends State<Control> {
             Listener(
               onPointerDown: (details) {
                 _buttonPressed = true;
-                _pulsado('Arriba');
+                _pulsado('N');
               },
               onPointerUp: (details) {
                 _buttonPressed = false;
@@ -72,7 +76,7 @@ class _Control extends State<Control> {
                   color: Colors.black,
                   onPressed: vars.estado
                       ? () {
-                          _publicaMensaje('Arriba');
+                          _publicaMensaje('S');
                         }
                       : null,
                 ),
@@ -85,7 +89,7 @@ class _Control extends State<Control> {
                 Listener(
                   onPointerDown: (details) {
                     _buttonPressed = true;
-                    _pulsado('Izquierda');
+                    _pulsado('O');
                   },
                   onPointerUp: (details) {
                     _buttonPressed = false;
@@ -97,7 +101,7 @@ class _Control extends State<Control> {
                       color: Colors.black,
                       onPressed: vars.estado
                           ? () {
-                              _publicaMensaje('Izquierda');
+                              _publicaMensaje('O');
                             }
                           : null,
                     ),
@@ -111,7 +115,7 @@ class _Control extends State<Control> {
                   onPressed: vars.estado
                       ? () {
                           if (vars.marcha) {
-                            _publicaMensaje('Paro');
+                            _publicaMensaje('0');
                             setState(() {
                               vars.marcha = false;
                               vars.iconMarcha =
@@ -119,7 +123,7 @@ class _Control extends State<Control> {
                               vars.iconMarchaColor = Colors.redAccent;
                             });
                           } else {
-                            _publicaMensaje('Marcha');
+                            _publicaMensaje('1');
                             setState(() {
                               vars.marcha = true;
                               vars.iconMarcha =
@@ -133,7 +137,7 @@ class _Control extends State<Control> {
                 Listener(
                   onPointerDown: (details) {
                     _buttonPressed = true;
-                    _pulsado('Derecha');
+                    _pulsado('E');
                   },
                   onPointerUp: (details) {
                     _buttonPressed = false;
@@ -145,7 +149,7 @@ class _Control extends State<Control> {
                       color: Colors.black,
                       onPressed: vars.estado
                           ? () {
-                              _publicaMensaje('Derecha');
+                              _publicaMensaje('E');
                             }
                           : null,
                     ),
@@ -156,7 +160,7 @@ class _Control extends State<Control> {
             Listener(
               onPointerDown: (details) {
                 _buttonPressed = true;
-                _pulsado('Abajo');
+                _pulsado('S');
               },
               onPointerUp: (details) {
                 _buttonPressed = false;
@@ -168,7 +172,7 @@ class _Control extends State<Control> {
                   color: Colors.black,
                   onPressed: vars.estado
                       ? () {
-                          _publicaMensaje('Abajo');
+                          _publicaMensaje('S');
                         }
                       : null,
                 ),
