@@ -43,18 +43,18 @@ class _Menu extends State<Menu> with SingleTickerProviderStateMixin {
           shadowColor: Colors.blueAccent,
         ),
         body: Padding(
-          padding: const EdgeInsets.only(top: 30.0),
+          padding: const EdgeInsets.only(top: 0.0),
           child: Column(
             children: <Widget>[
               Padding(
-                padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
+                padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
                 child: Container(
-                  color: Colors.blueAccent,
+                  color: vars.cardColor,
                   height: 40,
                   child: Center(
                     child: Text(
                       vars.textoMensajes,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontFamily: 'Verdana',
                         fontSize: 10,
                         color: Colors.white,
@@ -67,12 +67,14 @@ class _Menu extends State<Menu> with SingleTickerProviderStateMixin {
               ),
               const TabBar(
                 indicatorColor: Colors.black,
+                labelColor: Colors.blueAccent,
+                unselectedLabelColor: Color.fromARGB(255, 194, 191, 191),
                 tabs: [
                   Text(
                     "Configs.",
                     style: TextStyle(
                       fontSize: 17,
-                      color: Color(0xFF43669E),
+                      //color: Colors.blueAccent,
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -80,7 +82,7 @@ class _Menu extends State<Menu> with SingleTickerProviderStateMixin {
                     "Control",
                     style: TextStyle(
                       fontSize: 15,
-                      color: Color(0xFF43669E),
+                      //color: Colors.blueAccent,
                     ),
                     textAlign: TextAlign.center,
                   ),
