@@ -76,7 +76,7 @@ class _Control extends State<Control> {
                   color: Colors.black,
                   onPressed: vars.estado
                       ? () {
-                          _publicaMensaje('S');
+                          _publicaMensaje('N');
                         }
                       : null,
                 ),
