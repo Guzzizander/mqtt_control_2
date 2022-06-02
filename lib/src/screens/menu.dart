@@ -72,7 +72,7 @@ class _Menu extends State<Menu> with SingleTickerProviderStateMixin {
                     "Configs.",
                     style: TextStyle(
                       fontSize: 17,
-                      color: Color(0xFF43669E),
+                      color: Colors.blueAccent,
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -80,7 +80,7 @@ class _Menu extends State<Menu> with SingleTickerProviderStateMixin {
                     "Control",
                     style: TextStyle(
                       fontSize: 15,
-                      color: Color(0xFF43669E),
+                      color: Colors.blueAccent,
                     ),
                     textAlign: TextAlign.center,
                   ),
