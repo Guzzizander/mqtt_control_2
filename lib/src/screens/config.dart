@@ -6,7 +6,8 @@ import '../sql_helper.dart';
 import '../variables.dart' as vars;
 
 class Config extends StatefulWidget {
-  const Config({Key? key}) : super(key: key);
+  final Function() notifyParent;
+  Config({Key? key, required this.notifyParent}) : super(key: key);
 
   @override
   _Config createState() => _Config();
@@ -279,6 +280,7 @@ class _Config extends State<Config> {
                                             vars.iconColor = Colors.redAccent;
                                             vars.id = 0;
                                             vars.textoMensajes = 'DESCONECTADO';
+                                            widget.notifyParent();
                                           });
                                           // En principio no hace falta
                                           //estadoConexion();
@@ -350,6 +352,7 @@ class _Config extends State<Config> {
       vars.estado = true;
       vars.iconColor = Colors.blueAccent;
       vars.textoMensajes = 'CONECTADO';
+      widget.notifyParent();
     });
     DefaultTabController.of(context)!.animateTo(1);
   }
@@ -378,9 +381,11 @@ class _Config extends State<Config> {
 
   void pong() {
     //print('ping response arrived');
+    /*
     setState(() {
       vars.textoMensajes = 'EXAMPLE::Ping response client callback invoked';
     });
+    */
   }
 
   void estadoConexion() {

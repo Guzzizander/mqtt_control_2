@@ -30,7 +30,7 @@ class _Menu extends State<Menu> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final _kTabPages = <Widget>[
-      const Config(),
+      Config(notifyParent: refresh),
       const Control(title: 'Control'),
     ];
 
@@ -47,19 +47,15 @@ class _Menu extends State<Menu> with SingleTickerProviderStateMixin {
           child: Column(
             children: <Widget>[
               Padding(
-                padding: const EdgeInsets.fromLTRB(0, 0, 0, 40),
+                padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
                 child: Container(
-                  //width: 240.0,
-                  height: 42.0,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(24.0),
-                    color: Colors.blueAccent,
-                  ),
+                  color: Colors.blueAccent,
+                  height: 40,
                   child: Center(
                     child: Text(
                       vars.textoMensajes,
                       style: TextStyle(
-                        fontFamily: 'Arial',
+                        fontFamily: 'Verdana',
                         fontSize: 10,
                         color: Colors.white,
                         height: 1,
@@ -100,5 +96,9 @@ class _Menu extends State<Menu> with SingleTickerProviderStateMixin {
         ),
       ),
     );
+  }
+
+  refresh() {
+    setState(() {});
   }
 }
