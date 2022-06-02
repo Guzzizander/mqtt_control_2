@@ -54,7 +54,7 @@ class _Menu extends State<Menu> with SingleTickerProviderStateMixin {
                   child: Center(
                     child: Text(
                       vars.textoMensajes,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontFamily: 'Verdana',
                         fontSize: 10,
                         color: Colors.white,
@@ -67,12 +67,14 @@ class _Menu extends State<Menu> with SingleTickerProviderStateMixin {
               ),
               const TabBar(
                 indicatorColor: Colors.black,
+                labelColor: Colors.blueAccent,
+                unselectedLabelColor: Color.fromARGB(255, 194, 191, 191),
                 tabs: [
                   Text(
                     "Configs.",
                     style: TextStyle(
                       fontSize: 17,
-                      color: Colors.blueAccent,
+                      //color: Colors.blueAccent,
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -80,7 +82,7 @@ class _Menu extends State<Menu> with SingleTickerProviderStateMixin {
                     "Control",
                     style: TextStyle(
                       fontSize: 15,
-                      color: Colors.blueAccent,
+                      //color: Colors.blueAccent,
                     ),
                     textAlign: TextAlign.center,
                   ),
