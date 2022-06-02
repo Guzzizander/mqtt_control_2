@@ -1,8 +1,8 @@
 # This is a generated file; do not edit or check into version control.
-path_provider=c:\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\path_provider-2.0.9\\
-path_provider_android=c:\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\path_provider_android-2.0.13\\
-path_provider_ios=c:\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\path_provider_ios-2.0.8\\
-path_provider_linux=c:\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\path_provider_linux-2.1.5\\
-path_provider_macos=c:\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\path_provider_macos-2.0.5\\
-path_provider_windows=c:\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\path_provider_windows-2.0.5\\
-sqflite=c:\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\sqflite-2.0.2+1\\
+path_provider=/home/juanjo/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider-2.0.9/
+path_provider_android=/home/juanjo/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_android-2.0.13/
+path_provider_ios=/home/juanjo/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_ios-2.0.8/
+path_provider_linux=/home/juanjo/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_linux-2.1.5/
+path_provider_macos=/home/juanjo/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_macos-2.0.5/
+path_provider_windows=/home/juanjo/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_windows-2.0.5/
+sqflite=/home/juanjo/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/sqflite-2.0.2+1/
