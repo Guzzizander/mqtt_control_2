@@ -7,7 +7,7 @@ import '../variables.dart' as vars;
 
 class Config extends StatefulWidget {
   final Function() notifyParent;
-  Config({Key? key, required this.notifyParent}) : super(key: key);
+  const Config({Key? key, required this.notifyParent}) : super(key: key);
 
   @override
   _Config createState() => _Config();

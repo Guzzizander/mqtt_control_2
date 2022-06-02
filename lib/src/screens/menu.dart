@@ -43,13 +43,13 @@ class _Menu extends State<Menu> with SingleTickerProviderStateMixin {
           shadowColor: Colors.blueAccent,
         ),
         body: Padding(
-          padding: const EdgeInsets.only(top: 30.0),
+          padding: const EdgeInsets.only(top: 0.0),
           child: Column(
             children: <Widget>[
               Padding(
-                padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
+                padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
                 child: Container(
-                  color: Colors.blueAccent,
+                  color: vars.cardColor,
                   height: 40,
                   child: Center(
                     child: Text(
