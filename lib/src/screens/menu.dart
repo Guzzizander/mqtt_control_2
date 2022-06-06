@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-//import 'conexion.dart';
 import 'control.dart';
 import 'config.dart';
 import '../variables.dart' as vars;

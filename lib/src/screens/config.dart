@@ -218,8 +218,6 @@ class _Config extends State<Config> {
                         vars.port = _conexiones[index]['port'];
                         vars.identificador =
                             _conexiones[index]['identificador'];
-                        // Cambia a la Pantalla de conexion
-                        //DefaultTabController.of(context)!.animateTo(1);
                       },
                       trailing: SizedBox(
                         width: 150,
